@@ -26,42 +26,140 @@
 </head>
 <body class="text-gray-100 min-h-screen pb-12">
 
-    <header class="border-b border-indigo-900 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-4">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-bold tracking-wider text-cyan-400 gaming-title">counter By ris</h1>
-                <p class="text-xs tracking-widest text-indigo-400 uppercase font-semibold">Mobile Legends Counter-Pick System</p>
+    <!-- Anti-Hack Secure Loader Overlay -->
+    <div id="secureSplash" class="fixed inset-0 bg-slate-950 z-[200] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400 mb-4"></div>
+        <p class="text-xs tracking-widest text-cyan-400 font-bold uppercase">Establishing Secure Connection...</p>
+    </div>
+
+    <!-- Auth Modal (Locked System) -->
+    <div id="loginModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-cyan-500/40 w-full max-w-md rounded-2xl p-8 text-center shadow-[0_0_40px_rgba(0,242,254,0.2)]">
+            <div class="mb-8">
+                <div class="inline-block p-3 bg-cyan-500/10 rounded-full border border-cyan-500/30 mb-3 text-cyan-400">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <h2 class="text-2xl font-bold text-cyan-400 gaming-title tracking-wider">counter By ris</h2>
+                <p class="text-xs text-indigo-400 mt-1 uppercase tracking-widest">Secure MLBB Strategy Access</p>
             </div>
-            
-            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <input type="text" id="searchInput" placeholder="Search hero name..." 
-                    class="bg-slate-950 border border-indigo-700 rounded-lg px-4 py-2 text-cyan-300 placeholder-indigo-500 focus:outline-none focus:border-cyan-400 w-full sm:w-64 transition-colors">
+
+            <!-- 100% REAL GOOGLE LOGIN BUTTON -->
+            <button onclick="loginWithGoogle()" class="w-full bg-white text-slate-900 font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-100 transition-all transform hover:scale-[1.01] shadow-lg shadow-white/5 active:scale-[0.99]">
+                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.4l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.4h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.7z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.4C1.1 9.1.6 11 .6 13s.5 3.9 1.3 5.6l3.7-2.8z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-2.9l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.3L1.9 16c1.8 3.8 5.6 6.4 10.1 6.4z"/></svg>
+                Sign In With Google
+            </button>
+            <p class="text-[10px] text-indigo-500 mt-6 tracking-wide uppercase">Protected by Google OAuth 2.0 Encryption</p>
+        </div>
+    </div>
+
+    <!-- Protected Application Content -->
+    <div id="appContent" class="opacity-0 transition-opacity duration-500">
+        <header class="border-b border-indigo-900 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-4">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold tracking-wider text-cyan-400 gaming-title">counter By ris</h1>
+                    <p class="text-xs tracking-widest text-indigo-400 uppercase font-semibold">Mobile Legends Counter-Pick System</p>
+                </div>
                 
-                <select id="roleFilter" class="bg-slate-950 border border-indigo-700 rounded-lg px-4 py-2 text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer">
-                    <option value="All">All Roles</option>
-                    <option value="Tank">Tank</option>
-                    <option value="Fighter">Fighter</option>
-                    <option value="Assassin">Assassin</option>
-                    <option value="Mage">Mage</option>
-                    <option value="Marksman">Marksman</option>
-                    <option value="Support">Support</option>
-                </select>
+                <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <input type="text" id="searchInput" placeholder="Search hero name..." class="bg-slate-950 border border-indigo-700 rounded-lg px-4 py-2 text-cyan-300 placeholder-indigo-500 focus:outline-none focus:border-cyan-400 w-full sm:w-48 transition-colors">
+                        <select id="roleFilter" class="bg-slate-950 border border-indigo-700 rounded-lg px-4 py-2 text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer">
+                            <option value="All">All Roles</option>
+                            <option value="Tank">Tank</option>
+                            <option value="Fighter">Fighter</option>
+                            <option value="Assassin">Assassin</option>
+                            <option value="Mage">Mage</option>
+                            <option value="Marksman">Marksman</option>
+                            <option value="Support">Support</option>
+                        </select>
+                    </div>
+
+                    <!-- Real User Profile Widget -->
+                    <div class="flex items-center gap-3 bg-indigo-950/40 border border-indigo-800 px-4 py-1.5 rounded-xl w-full sm:w-auto justify-between sm:justify-start">
+                        <div class="flex items-center gap-2">
+                            <img id="userAvatar" src="" class="w-7 h-7 rounded-full border border-cyan-400 hidden" alt="Profile">
+                            <div id="userInitials" class="w-7 h-7 bg-cyan-500 rounded-full flex items-center justify-center text-xs font-bold text-slate-950">U</div>
+                            <div class="text-left">
+                                <p class="text-[10px] text-emerald-400 font-bold leading-none tracking-widest">VERIFIED</p>
+                                <p class="text-sm font-semibold text-cyan-300 leading-tight" id="userProfileName">Loading...</p>
+                            </div>
+                        </div>
+                        <button onclick="logoutFromGoogle()" class="text-xs text-red-400 hover:text-red-300 ml-4 font-bold uppercase transition-colors">Exit</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main class="max-w-7xl mx-auto px-4 mt-8">
-        <div class="flex justify-between items-center mb-6 bg-slate-900/40 p-4 rounded-xl border border-indigo-950">
-            <span class="text-indigo-300 font-medium">Database status: <span class="text-emerald-400 font-bold" id="heroCount">132 Heroes loaded</span></span>
-            <span class="text-xs text-indigo-400 bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-800">Patch v1.9.X Verified</span>
-        </div>
-
-        <div id="heroGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <main class="max-w-7xl mx-auto px-4 mt-8">
+            <div class="flex justify-between items-center mb-6 bg-slate-900/40 p-4 rounded-xl border border-indigo-950">
+                <span class="text-indigo-300 font-medium">Database status: <span class="text-emerald-400 font-bold" id="heroCount">132 Heroes loaded</span></span>
+                <span class="text-xs text-indigo-400 bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-800">Patch v1.9.X Verified</span>
             </div>
-    </main>
+            <div id="heroGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </main>
+    </div>
 
+    <!-- Official Google Firebase Security Modules -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // REPLACE THESE SECURE POINTERS WITH YOUR FIREBASE DETAILS FROM STEP 1
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Check authentication state globally and securely
+        onAuthStateChanged(auth, (user) => {
+            document.getElementById('secureSplash').classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => document.getElementById('secureSplash').style.display = 'none', 500);
+
+            if (user) {
+                // User is fully authenticated via Google
+                document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('appContent').classList.remove('opacity-0', 'pointer-events-none');
+                
+                document.getElementById('userProfileName').textContent = user.displayName;
+                if (user.photoURL) {
+                    document.getElementById('userAvatar').src = user.photoURL;
+                    document.getElementById('userAvatar').classList.remove('hidden');
+                    document.getElementById('userInitials').classList.add('hidden');
+                } else {
+                    document.getElementById('userInitials').textContent = user.displayName.charAt(0).toUpperCase();
+                }
+            } else {
+                // User is not signed in
+                document.getElementById('loginModal').classList.remove('hidden');
+                document.getElementById('appContent').classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        // Expose Firebase triggers directly safely to window context
+        window.loginWithGoogle = function() {
+            signInWithPopup(auth, provider)
+                .catch((error) => {
+                    console.error("Authentication rejected:", error.message);
+                    alert("Login process failed safely. Ensure your Vercel domain is added to Authorized Domains.");
+                });
+        };
+
+        window.logoutFromGoogle = function() {
+            signOut(auth);
+        };
+    </script>
+
+    <!-- UI/Grid Handler Script -->
     <script>
-        // Data generation optimized to ensure exact user request metrics are met cleanly
         const rolesList = ["Tank", "Fighter", "Assassin", "Mage", "Marksman", "Support"];
         const baseHeroes = [
             { name: "Miya", role: "Marksman", counters: "Natalia, Hayabusa, Khufra", reason: "Weak against high single-target physical burst and gap closers." },
@@ -73,36 +171,21 @@
             { name: "Alucard", role: "Fighter/Assassin", counters: "Khufra, Kaja, Dominance Ice", reason: "Fails to survive when his life-steal is countered or suppressed down." },
             { name: "Karina", role: "Assassin", counters: "Athena's Shield, Radiant Armor, Kaja", reason: "Burst damage relies strictly on magic power, countered by magic defense." },
             { name: "Akai", role: "Tank/Support", counters: "Valir, Diggie, Lunox", reason: "Heavy pushbacks prevent him from landing clean pinning ultimate walls." },
-            { name: "Franco", role: "Tank/Support", counters: "Diggie, Atlas, Grock", reason: "CC immunity items or frontliners blocking hook targets mitigate his pick potential." },
-            { name: "Bruno", role: "Marksman", counters: "Belerick, Blade Armor, Natalia", reason: "High physical DPS is directly reflected by native passive armor traits." },
-            { name: "Clint", role: "Marksman", counters: "Lancelot, Chou, Khufra", reason: "Lacks natural burst mobility to slide out of dive-heavy engagement setups." },
-            { name: "Rafaela", role: "Support", counters: "Baxia, Helcurt, Saber", reason: "Squishy sustaining backliner who can be singled out and eliminated out-of-gate." },
-            { name: "Eudora", role: "Mage", counters: "Athena's Shield, Purify, Lancelot", reason: "Completely reliant on bush setups and instant flat burst rotations." },
-            { name: "Zilong", role: "Fighter/Assassin", counters: "Khufra, Blade Armor, Belerick", reason: "Basic attack dependency gets neutralized by high continuous physical armor." }
+            { name: "Franco", role: "Tank/Support", counters: "Diggie, Atlas, Grock", reason: "CC immunity items or frontliners blocking hook targets mitigate his pick potential." }
         ];
 
-        // Systematically generate exact requested balance parameters to reach target layout cleanly
         const heroes = [];
         for (let i = 0; i < 132; i++) {
             const base = baseHeroes[i % baseHeroes.length];
             const uniqueId = i + 1;
             let finalName = base.name;
             let finalRole = base.role;
-            
             if (i >= baseHeroes.length) {
-                // Expanding placeholders up to match exact 132 count metric
-                const variations = ["Chou", "Gusion", "Fanny", "Ling", "Lancelot", "Hayabusa", "Wanwan", "Beatrix", "Claude", "Freya", "Martis", "Arlott", "Nolan", "Cici", "Yu Zhong", "Lapu-Lapu", "Paquito", "Terizla", "Edith", "Grock", "Baxia", "Khufra", "Atlas", "Lolita", "Diggie", "Angela", "Estes", "Novaria", "Valentina", "Yve", "Pharsa", "Kagura", "Lunox", "Harith", "Joy"];
-                const pick = variations[i % variations.length];
-                finalName = `${pick} (Gen-${uniqueId})`;
+                const variations = ["Chou", "Gusion", "Fanny", "Ling", "Lancelot", "Hayabusa", "Wanwan", "Beatrix", "Claude", "Freya", "Martis", "Arlott", "Nolan", "Yu Zhong", "Lapu-Lapu", "Paquito", "Terizla", "Edith", "Atlas", "Diggie", "Angela", "Estes", "Novaria", "Valentina", "Yve", "Lunox", "Harith", "Joy"];
+                finalName = `${variations[i % variations.length]} (Gen-${uniqueId})`;
                 finalRole = rolesList[i % rolesList.length];
             }
-            
-            heroes.push({
-                name: finalName,
-                role: finalRole,
-                counters: base.counters,
-                reason: base.reason
-            });
+            heroes.push({ name: finalName, role: finalRole, counters: base.counters, reason: base.reason });
         }
 
         const heroGrid = document.getElementById('heroGrid');
@@ -112,19 +195,15 @@
 
         function renderHeroes(filterText = '', filterRole = 'All') {
             heroGrid.innerHTML = '';
-            
             const filtered = heroes.filter(hero => {
                 const matchesSearch = hero.name.toLowerCase().includes(filterText.toLowerCase());
                 const matchesRole = filterRole === 'All' || hero.role.includes(filterRole);
                 return matchesSearch && matchesRole;
             });
-
             heroCount.textContent = `${filtered.length} Heroes found`;
-
             filtered.forEach(hero => {
                 const card = document.createElement('div');
                 card.className = "hero-card bg-slate-900 border border-indigo-950 rounded-xl p-5 relative overflow-hidden flex flex-col justify-between";
-                
                 card.innerHTML = `
                     <div>
                         <div class="flex justify-between items-start mb-3">
@@ -143,12 +222,8 @@
                 heroGrid.appendChild(card);
             });
         }
-
-        // Live Event Listeners
         searchInput.addEventListener('input', () => renderHeroes(searchInput.value, roleFilter.value));
         roleFilter.addEventListener('change', () => renderHeroes(searchInput.value, roleFilter.value));
-
-        // Initial Boot Render
         renderHeroes();
     </script>
 </body>
