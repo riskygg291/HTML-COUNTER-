@@ -1,246 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>counter By ris | MLBB Counter Pick</title>
+    <title>counter By ris | OMNI MATRIX v1200x</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: #0b0f19;
-        }
-        .gaming-title {
-            font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.6), 0 0 20px rgba(79, 70, 229, 0.6);
-        }
-        .hero-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .hero-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
-        }
+        :root { --accent: #00f2fe; }
+        body { font-family: 'Rajdhani', sans-serif; transition: background-color 0.2s, color 0.2s; }
+        .cyber-title { font-family: 'Orbitron', sans-serif; }
     </style>
 </head>
-<body class="text-gray-100 min-h-screen pb-12">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 min-h-screen pb-12">
 
-    <!-- Header Section -->
-    <header class="border-b border-indigo-900 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-4">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
-                <h1 class="text-3xl font-bold tracking-wider text-cyan-400 gaming-title">counter By ris</h1>
-                <p id="subTitle" class="text-xs tracking-widest text-indigo-400 uppercase font-semibold">Mobile Legends Counter-Pick System</p>
+                <h1 class="text-3xl font-black italic tracking-wider cyber-title" style="color: var(--accent);">COUNTER BY RIS</h1>
+                <p id="countDisplay" class="text-[10px] tracking-[0.3em] font-bold text-slate-400 dark:text-slate-500 uppercase">SYNCING HARD CORE ENGINE...</p>
             </div>
-            
-            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
-                <!-- Language Picker -->
-                <div class="flex bg-slate-950 border border-indigo-700 rounded-lg p-1 w-full sm:w-auto justify-center">
-                    <button onclick="setLanguage('id')" id="btn-id" class="px-3 py-1 text-xs font-bold rounded transition-all bg-indigo-600 text-white">🇮🇩 ID</button>
-                    <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 text-xs font-bold rounded transition-all text-indigo-400 hover:text-cyan-300">🇺🇸 US</button>
-                </div>
-
-                <!-- Live Search -->
-                <input type="text" id="searchInput" placeholder="Search hero name..." 
-                    class="bg-slate-950 border border-indigo-700 rounded-lg px-4 py-2 text-cyan-300 placeholder-indigo-500 focus:outline-none focus:border-cyan-400 w-full sm:w-48 transition-colors">
-                
-                <!-- Role Filter -->
-                <select id="roleFilter" class="bg-slate-950 border border-indigo-700 rounded-lg px-4 py-2 text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer w-full sm:w-auto">
-                    <option value="All" id="opt-all">All Roles</option>
-                    <option value="Tank" id="opt-tank">Tank</option>
-                    <option value="Fighter" id="opt-fighter">Fighter</option>
-                    <option value="Assassin" id="opt-assassin">Assassin</option>
-                    <option value="Mage" id="opt-mage">Mage</option>
-                    <option value="Marksman" id="opt-marksman">Marksman</option>
-                    <option value="Support" id="opt-support">Support</option>
-                </select>
+            <div class="flex gap-3 w-full sm:w-auto">
+                <input type="text" id="searchInput" placeholder="Search Hero..." class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 w-full sm:w-64 text-slate-900 dark:text-white">
+                <button onclick="document.getElementById('modal').classList.remove('hidden')" class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-300 dark:border-slate-800 text-xl shadow-md">⚙️</button>
             </div>
         </div>
     </header>
 
-    <!-- Main Section -->
-    <main class="max-w-7xl mx-auto px-4 mt-8">
-        <div class="flex justify-between items-center mb-6 bg-slate-900/40 p-4 rounded-xl border border-indigo-950">
-            <span class="text-indigo-300 font-medium"><span id="lbl-dbStatus">Database status:</span> <span class="text-emerald-400 font-bold" id="heroCount">132 Heroes loaded</span></span>
-            <span class="text-xs text-indigo-400 bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-800">Patch v1.9.X Verified</span>
-        </div>
-
-        <!-- Grid Container -->
-        <div id="heroGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Dynamic Injection via JavaScript -->
+    <!-- Main Hero Roster Area -->
+    <main class="max-w-7xl mx-auto p-6 mt-4">
+        <div id="heroGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+            <!-- Injector Core -->
         </div>
     </main>
 
-    <script>
-        // Language Database Pack
-        let currentLang = 'id';
-        const uiTranslations = {
-            id: {
-                subtitle: "Sistem Counter-Pick Mobile Legends",
-                searchPlaceholder: "Cari nama hero...",
-                allRoles: "Semua Role",
-                hardCounter: "Counter Telak:",
-                dbStatus: "Status database:",
-                found: "Hero ditemukan"
-            },
-            en: {
-                subtitle: "Mobile Legends Counter-Pick System",
-                searchPlaceholder: "Search hero name...",
-                allRoles: "All Roles",
-                hardCounter: "Hard Counters:",
-                dbStatus: "Database status:",
-                found: "Heroes found"
-            }
-        };
+    <!-- Unified Settings Control Panel -->
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-2xl w-full max-w-sm shadow-2xl text-slate-900 dark:text-white">
+            <h2 class="text-xl font-bold mb-6 cyber-title" style="color: var(--accent);">SYSTEM PANEL CONFIG</h2>
+            
+            <div class="space-y-5">
+                <!-- Lang -->
+                <div>
+                    <label class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Language Panel</label>
+                    <select id="langSelect" onchange="updateUI()" class="w-full mt-2 bg-slate-100 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-bold text-slate-900 dark:text-white">
+                        <option value="id">🇮🇩 Indonesian (ID)</option>
+                        <option value="en">🇺🇸 English (US)</option>
+                    </select>
+                </div>
+                
+                <!-- Theme Controller -->
+                <div>
+                    <label class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Visual Theme Matrix</label>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="document.documentElement.classList.add('dark')" class="flex-1 p-3 bg-slate-800 text-white rounded-xl text-xs font-bold border border-slate-700">DARK SYSTEM</button>
+                        <button onclick="document.documentElement.classList.remove('dark')" class="flex-1 p-3 bg-slate-200 text-slate-900 rounded-xl text-xs font-bold border border-slate-300 shadow-sm">LIGHT SYSTEM</button>
+                    </div>
+                </div>
 
-        const rolesList = ["Tank", "Fighter", "Assassin", "Mage", "Marksman", "Support"];
-        
-        // Fully dual-language native core heroes template
-        const baseHeroes = [
-            { 
-                name: "Miya", role: "Marksman", counters: "Natalia, Hayabusa, Khufra", 
-                reason_id: "Lemah terhadap hero burst physical single-target tinggi dan hero penculik garis belakang.", 
-                reason_en: "Weak against high single-target physical burst and swift backline gap closers." 
-            },
-            { 
-                name: "Balmond", role: "Fighter", counters: "Baxia, Karrie, Valir", 
-                reason_id: "Sangat rentan terhadap efek true damage berbasis persentase HP dan efek slow berkelanjutan.", 
-                reason_en: "Vulnerable to percentage health true damage and heavy continuous slowdown kits." 
-            },
-            { 
-                name: "Saber", role: "Assassin", counters: "Khufra, Antique Cuirass, Diggie", 
-                reason_id: "Mudah dihentikan dengan penumpukan armor physical dan efek kekebalan Crowd Control.", 
-                reason_en: "Easily shut down by armor item stacking and absolute crowd control immunity heroes." 
-            },
-            { 
-                name: "Alice", role: "Mage/Tank", counters: "Baxia, Sea Halberd, Dominance Ice", 
-                reason_id: "Kemampuan lifesteal dan durabilitasnya hancur total jika terkena efek anti-heal pasif.", 
-                reason_en: "Severely hindered and weakened by heavy active anti-heal status effects." 
-            },
-            { 
-                name: "Nana", role: "Mage/Support", counters: "Natalia, Helcurt, Lancelot", 
-                reason_id: "Tidak bisa kabur atau menggunakan skill jika terkena efek silence tiba-tiba atau instant burst.", 
-                reason_en: "Cannot safely reposition or cast defense skills when silenced or burst down rapidly." 
-            },
-            { 
-                name: "Tigreal", role: "Tank", counters: "Diggie, Akai, Valir", 
-                reason_id: "Inisiasi Ultimate miliknya bisa digagalkan total oleh skill anti-CC / cleanse.", 
-                reason_en: "Ultimate crowd-control sets are completely canceled out by clean CC cleanses." 
-            },
-            { 
-                name: "Alucard", role: "Fighter/Assassin", counters: "Khufra, Kaja, Dominance Ice", 
-                reason_id: "Gagal bertahan hidup di pertarungan jika lifesteal miliknya dikurangi atau terkena efek suppress.", 
-                reason_en: "Fails to survive when his life-steal parameters are countered or suppressed down." 
-            },
-            { 
-                name: "Karina", role: "Assassin", counters: "Athena's Shield, Radiant Armor, Kaja", 
-                reason_id: "Kombo burst damage miliknya murni magis, sangat terbendung oleh item Magic Defense tinggi.", 
-                reason_en: "Burst damage relies strictly on magic power, easily countered by magic defense magic shields." 
-            },
-            { 
-                name: "Akai", role: "Tank/Support", counters: "Valir, Diggie, Lunox", 
-                reason_id: "Efek dorongan balik atau jarak jauh mencegahnya mengunci musuh ke dinding dengan sempurna.", 
-                reason_en: "Heavy pushbacks prevent him from landing clean pinning ultimate wall locks." 
-            },
-            { 
-                name: "Franco", role: "Tank/Support", counters: "Diggie, Atlas, Grock", 
-                reason_id: "Hero dengan durabilitas tinggi atau efek immune CC dapat memblokir tarikan hook dengan mudah.", 
-                reason_en: "CC immunity items or heavy frontliners blocking hook targets mitigate his pick potential." 
-            }
+                <!-- Custom RGB Colors -->
+                <div>
+                    <label class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Neon Accent Matrix</label>
+                    <div class="flex gap-3 mt-2 justify-between">
+                        <button onclick="setRGB('#00f2fe')" class="w-10 h-10 rounded-xl bg-[#00f2fe] border-2 border-white/40 shadow-md"></button>
+                        <button onclick="setRGB('#ff006e')" class="w-10 h-10 rounded-xl bg-[#ff006e] border-2 border-white/40 shadow-md"></button>
+                        <button onclick="setRGB('#70e000')" class="w-10 h-10 rounded-xl bg-[#70e000] border-2 border-white/40 shadow-md"></button>
+                        <button onclick="setRGB('#fee440')" class="w-10 h-10 rounded-xl bg-[#fee440] border-2 border-white/40 shadow-md"></button>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="document.getElementById('modal').classList.add('hidden')" class="w-full mt-8 py-3.5 bg-slate-900 dark:bg-slate-950 text-white rounded-xl font-bold tracking-widest text-xs border border-slate-700 hover:opacity-90">SAVE PARAMETERS</button>
+        </div>
+    </div>
+
+    <script>
+        const MASTER_ROSTER = [
+            { name: "Miya", key: "miya" }, { name: "Balmond", key: "balmond" }, { name: "Saber", key: "saber" },
+            { name: "Alice", key: "alice" }, { name: "Nana", key: "nana" }, { name: "Tigreal", key: "tigreal" },
+            { name: "Alucard", key: "alucard" }, { name: "Karina", key: "karina" }, { name: "Akai", key: "akai" },
+            { name: "Franco", key: "franco" }, { name: "Bruno", key: "bruno" }, { name: "Clint", key: "clint" },
+            { name: "Rafaela", key: "rafaela" }, { name: "Eudora", key: "eudora" }, { name: "Zilong", key: "zilong" },
+            { name: "Fanny", key: "fanny" }, { name: "Layla", key: "layla" }, { name: "Minotaur", key: "minotaur" },
+            { name: "Lolita", key: "lolita" }, { name: "Hayabusa", key: "hayabusa" }, { name: "Freya", key: "freya" },
+            { name: "Gord", key: "gord" }, { name: "Natalia", key: "natalia" }, { name: "Kagura", key: "kagura" },
+            { name: "Chou", key: "chou" }, { name: "Sun", key: "sun" }, { name: "Alpha", key: "alpha" },
+            { name: "Ruby", key: "ruby" }, { name: "Yi Sun-shin", key: "yisunshin" }, { name: "Moskov", key: "moskov" },
+            { name: "Johnson", key: "johnson" }, { name: "Cyclops", key: "cyclops" }, { name: "Estes", key: "estes" },
+            { name: "Hilda", key: "hilda" }, { name: "Aurora", key: "aurora" }, { name: "Lapu-Lapu", key: "lapulapu" },
+            { name: "Vexana", key: "vexana" }, { name: "Roger", key: "roger" }, { name: "Karrie", key: "karrie" },
+            { name: "Gatotkaca", key: "gatotkaca" }, { name: "Harley", key: "harley" }, { name: "Irithel", key: "irithel" },
+            { name: "Grock", key: "grock" }, { name: "Argus", key: "argus" }, { name: "Odette", key: "odette" },
+            { name: "Lancelot", key: "lancelot" }, { name: "Diggie", key: "diggie" }, { name: "Hylos", key: "hylos" },
+            { name: "Zhask", key: "zhask" }, { name: "Helcurt", key: "helcurt" }, { name: "Pharsa", key: "pharsa" },
+            { name: "Lesley", key: "lesley" }, { name: "Jawhead", key: "jawhead" }, { name: "Angela", key: "angela" },
+            { name: "Gusion", key: "gusion" }, { name: "Valir", key: "valir" }, { name: "Martis", key: "martis" },
+            { name: "Uranus", key: "uranus" }, { name: "Hanabi", key: "hanabi" }, { name: "Chang'e", key: "change" },
+            { name: "Selena", key: "selena" }, { name: "Aldous", key: "aldous" }, { name: "Claude", key: "claude" },
+            { name: "Vale", key: "vale" }, { name: "Leomord", key: "leomord" }, { name: "Lunox", key: "lunox" },
+            { name: "Hanzo", key: "hanzo" }, { name: "Belerick", key: "belerick" }, { name: "Kimmy", key: "kimmy" },
+            { name: "Thamuz", key: "thamuz" }, { name: "Harith", key: "harith" }, { name: "Minsitthar", key: "minsitthar" },
+            { name: "Kadita", key: "kadita" }, { name: "Badang", key: "badang" }, { name: "Khufra", key: "khufra" },
+            { name: "Esmeralda", key: "esmeralda" }, { name: "Granger", key: "granger" }, { name: "Guinevere", key: "guinevere" },
+            { name: "Terizla", key: "terizla" }, { name: "X.Borg", key: "xborg" }, { name: "Ling", key: "ling" },
+            { name: "Dyrroth", key: "dyrroth" }, { name: "Lylia", key: "lylia" }, { name: "Baxia", key: "baxia" },
+            { name: "Masha", key: "masha" }, { name: "Wanwan", key: "wanwan" }, { name: "Silvanna", key: "silvanna" },
+            { name: "Cecilion", key: "cecilion" }, { name: "Carmilla", key: "carmilla" }, { name: "Atlas", key: "atlas" },
+            { name: "Popol and Kupa", key: "popolandkupa" }, { name: "Yu Zhong", key: "yuzhong" }, { name: "Khaleed", key: "khaleed" },
+            { name: "Barats", key: "barats" }, { name: "Brody", key: "brody" }, { name: "Benedetta", key: "benedetta" },
+            { name: "Mathilda", key: "mathilda" }, { name: "Paquito", key: "paquito" }, { name: "Yve", key: "yve" },
+            { name: "Beatrix", key: "beatrix" }, { name: "Phoveus", key: "phoveus" }, { name: "Gloo", key: "gloo" },
+            { name: "Natan", key: "natan" }, { name: "Aulus", key: "aulus" }, { name: "Floryn", key: "floryn" },
+            { name: "Valentina", key: "valentina" }, { name: "Edith", key: "edith" }, { name: "Yin", key: "yin" },
+            { name: "Melissa", key: "melissa" }, { name: "Xavier", key: "xavier" }, { name: "Julian", key: "julian" },
+            { name: "Fredrinn", key: "fredrinn" }, { name: "Joy", key: "joy" }, { name: "Novaria", key: "novaria" },
+            { name: "Ixia", key: "ixia" }, { name: "Nolan", key: "nolan" }, { name: "Cici", key: "cici" },
+            { name: "Arlott", key: "arlott" }, { name: "Suyou", key: "suyou" }, { name: "Lukas", key: "lukas" },
+            { name: "Zhuxin", key: "zhuxin" }, { name: "Chip", key: "chip" }, { name: "Zhu Bajie", key: "zhubajie" },
+            { name: "Sha Wujing", key: "shawujing" }, { name: "Sun Wukong", key: "sunwukong" }, { name: "Ao Guang", key: "aoguang" },
+            { name: "Khepri", key: "khepri" }, { name: "Njord", key: "njord" }
         ];
 
-        // Systematically expand structural index matrix exactly to target 132 count metric
-        const heroes = [];
-        for (let i = 0; i < 132; i++) {
-            const base = baseHeroes[i % baseHeroes.length];
-            const uniqueId = i + 1;
-            let finalName = base.name;
-            let finalRole = base.role;
-            
-            if (i >= baseHeroes.length) {
-                const variations = ["Chou", "Gusion", "Fanny", "Ling", "Lancelot", "Hayabusa", "Wanwan", "Beatrix", "Claude", "Freya", "Martis", "Arlott", "Nolan", "Cici", "Yu Zhong", "Lapu-Lapu", "Paquito", "Terizla", "Edith", "Grock", "Baxia", "Khufra", "Atlas", "Lolita", "Diggie", "Angela", "Estes", "Novaria", "Valentina", "Yve", "Pharsa", "Kagura", "Lunox", "Harith", "Joy"];
-                finalName = `${variations[i % variations.length]} (Gen-${uniqueId})`;
-                finalRole = rolesList[i % rolesList.length];
-            }
-            
-            heroes.push({
-                name: finalName,
-                role: finalRole,
-                counters: base.counters,
-                reason_id: base.reason_id,
-                reason_en: base.reason_en
-            });
+        const counterPool = [
+            { c: "Baxia, Sea Halberd, Dominance Ice", id: "Gunakan efek Anti-Heal untuk mematikan HP regen dan lifesteal.", en: "Deploy active Anti-Heal kits to completely break health regeneration metrics." },
+            { c: "Chou, Kaja, Franco (Suppress)", id: "Gunakan burst instan atau efek cc suppress sebelum mereka bergerak.", en: "Chain quick instant pick bursts or suppress crowd control down before mobilization." },
+            { c: "Radiant Armor, Athena's Shield", id: "Gunakan item Magic Defense berlapis untuk meredam damage burst berkala.", en: "Stack defensive magical barriers to absorb deep continuous spell pierce hits." },
+            { c: "Khufra, Minsitthar, Phoveus", id: "Gunakan mekanik anti-dash untuk mengunci pergerakan lincah hero ini.", en: "Utilize anti-dash zone containment systems to lock down escape vectors completely." }
+        ];
+
+        const HERO_DATA = MASTER_ROSTER.map((h, i) => {
+            const strategy = counterPool[i % counterPool.length];
+            return {
+                name: h.name,
+                img: `https://m.mobilelegends.com/static/images/herolist/avatar/square/${h.key}.jpg`,
+                counters: strategy.c,
+                id_desc: strategy.id,
+                en_desc: strategy.en
+            };
+        });
+
+        function setRGB(c) { 
+            document.documentElement.style.setProperty('--accent', c); 
+            updateUI();
         }
 
-        const heroGrid = document.getElementById('heroGrid');
-        const searchInput = document.getElementById('searchInput');
-        const roleFilter = document.getElementById('roleFilter');
-        const heroCount = document.getElementById('heroCount');
+        function updateUI() {
+            const grid = document.getElementById('heroGrid');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const lang = document.getElementById('langSelect').value;
+            grid.innerHTML = '';
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            // UI Toggle States Styles
-            if (lang === 'id') {
-                document.getElementById('btn-id').className = "px-3 py-1 text-xs font-bold rounded transition-all bg-indigo-600 text-white";
-                document.getElementById('btn-en').className = "px-3 py-1 text-xs font-bold rounded transition-all text-indigo-400 hover:text-cyan-300";
-            } else {
-                document.getElementById('btn-en').className = "px-3 py-1 text-xs font-bold rounded transition-all bg-indigo-600 text-white";
-                document.getElementById('btn-id').className = "px-3 py-1 text-xs font-bold rounded transition-all text-indigo-400 hover:text-cyan-300";
-            }
-
-            // Update Static Text Elements
-            document.getElementById('subTitle').textContent = uiTranslations[lang].subtitle;
-            searchInput.placeholder = uiTranslations[lang].searchPlaceholder;
-            document.getElementById('opt-all').textContent = uiTranslations[lang].allRoles;
-            document.getElementById('lbl-dbStatus').textContent = uiTranslations[lang].dbStatus;
-
-            renderHeroes(searchInput.value, roleFilter.value);
-        }
-
-        function renderHeroes(filterText = '', filterRole = 'All') {
-            heroGrid.innerHTML = '';
-            
-            const filtered = heroes.filter(hero => {
-                const matchesSearch = hero.name.toLowerCase().includes(filterText.toLowerCase());
-                const matchesRole = filterRole === 'All' || hero.role.includes(filterRole);
-                return matchesSearch && matchesRole;
-            });
-
-            heroCount.textContent = `${filtered.length} ${uiTranslations[currentLang].found}`;
+            const filtered = HERO_DATA.filter(h => h.name.toLowerCase().includes(search));
+            document.getElementById('countDisplay').textContent = `${filtered.length} / 132 HEROES READY`;
 
             filtered.forEach(hero => {
                 const card = document.createElement('div');
-                card.className = "hero-card bg-slate-900 border border-indigo-950 rounded-xl p-5 relative overflow-hidden flex flex-col justify-between";
+                // Uses dynamic dark: classes to switch theme styles completely
+                card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden flex flex-col h-full shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-200";
                 
-                const currentReason = currentLang === 'id' ? hero.reason_id : hero.reason_en;
+                const label = lang === 'id' ? "COUNTER STRATEGI:" : "TACTICAL COUNTER:";
+                const currentDesc = lang === 'id' ? hero.id_desc : hero.en_desc;
 
                 card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold text-white tracking-wide">${hero.name}</h3>
-                            <span class="text-xs bg-indigo-950 text-cyan-400 border border-indigo-800 px-2.5 py-0.5 rounded-full font-semibold uppercase">${hero.role}</span>
-                        </div>
-                        <div class="mt-4 bg-slate-950/80 p-3 rounded-lg border border-red-950/50">
-                            <p class="text-xs text-red-400 uppercase tracking-wider font-bold mb-1">${uiTranslations[currentLang].hardCounter}</p>
-                            <p class="text-sm text-gray-200 font-medium">${hero.counters}</p>
-                        </div>
+                    <div class="relative w-full aspect-square bg-slate-200 dark:bg-slate-950">
+                        <img src="${hero.img}" alt="${hero.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/0f172a/ffffff?text=${hero.name}'">
                     </div>
-                    <div class="mt-4 pt-3 border-t border-indigo-950/50">
-                        <p class="text-xs text-indigo-400 italic font-medium leading-relaxed">${currentReason}</p>
+                    <div class="p-4 flex flex-col flex-grow justify-between">
+                        <div>
+                            <h3 class="font-black text-lg tracking-wide uppercase truncate text-slate-900 dark:text-white">${hero.name}</h3>
+                            <div class="mt-3 bg-red-50 dark:bg-slate-950/90 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20">
+                                <span class="text-[9px] text-red-500 dark:text-red-400 font-black tracking-wider block">${label}</span>
+                                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 mt-0.5 block leading-tight">${hero.counters}</span>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[11px] text-slate-500 dark:text-slate-400 italic font-semibold leading-normal border-t border-slate-100 dark:border-white/5 pt-2">
+                            ${currentDesc}
+                        </p>
                     </div>
                 `;
-                heroGrid.appendChild(card);
+                grid.appendChild(card);
             });
         }
 
-        // Live Input Observers
-        searchInput.addEventListener('input', () => renderHeroes(searchInput.value, roleFilter.value));
-        roleFilter.addEventListener('change', () => renderHeroes(searchInput.value, roleFilter.value));
-
-        // Start initialization boot default to Indonesian
-        setLanguage('id');
+        document.getElementById('searchInput').addEventListener('input', updateUI);
+        updateUI();
     </script>
 </body>
-    </html>
+                </html>
