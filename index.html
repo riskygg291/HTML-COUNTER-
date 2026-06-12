@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>counter By ris | OMNI MATRIX v1200x</title>
+    <title>counter By ris | GLOBAL MASTER LIST</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -24,7 +24,7 @@
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
                 <h1 class="text-3xl font-black italic tracking-wider cyber-title" style="color: var(--accent);">COUNTER BY RIS</h1>
-                <p id="countDisplay" class="text-[10px] tracking-[0.3em] font-bold text-slate-400 dark:text-slate-500 uppercase">SYNCING HARD CORE ENGINE...</p>
+                <p id="countDisplay" class="text-[10px] tracking-[0.3em] font-bold text-slate-400 dark:text-slate-500 uppercase">SYNCING GLOBAL COMBAT RECORDS...</p>
             </div>
             <div class="flex gap-3 w-full sm:w-auto">
                 <input type="text" id="searchInput" placeholder="Search Hero..." class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 w-full sm:w-64 text-slate-900 dark:text-white">
@@ -36,7 +36,7 @@
     <!-- Main Hero Roster Area -->
     <main class="max-w-7xl mx-auto p-6 mt-4">
         <div id="heroGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            <!-- Injector Core -->
+            <!-- Global Heroes Dynamically Injected Here -->
         </div>
     </main>
 
@@ -46,7 +46,7 @@
             <h2 class="text-xl font-bold mb-6 cyber-title" style="color: var(--accent);">SYSTEM PANEL CONFIG</h2>
             
             <div class="space-y-5">
-                <!-- Lang -->
+                <!-- Language Switcher -->
                 <div>
                     <label class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Language Panel</label>
                     <select id="langSelect" onchange="updateUI()" class="w-full mt-2 bg-slate-100 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-bold text-slate-900 dark:text-white">
@@ -81,6 +81,7 @@
     </div>
 
     <script>
+        // Strictly Playable Heroes on the MLBB Global Server
         const MASTER_ROSTER = [
             { name: "Miya", key: "miya" }, { name: "Balmond", key: "balmond" }, { name: "Saber", key: "saber" },
             { name: "Alice", key: "alice" }, { name: "Nana", key: "nana" }, { name: "Tigreal", key: "tigreal" },
@@ -122,9 +123,7 @@
             { name: "Fredrinn", key: "fredrinn" }, { name: "Joy", key: "joy" }, { name: "Novaria", key: "novaria" },
             { name: "Ixia", key: "ixia" }, { name: "Nolan", key: "nolan" }, { name: "Cici", key: "cici" },
             { name: "Arlott", key: "arlott" }, { name: "Suyou", key: "suyou" }, { name: "Lukas", key: "lukas" },
-            { name: "Zhuxin", key: "zhuxin" }, { name: "Chip", key: "chip" }, { name: "Zhu Bajie", key: "zhubajie" },
-            { name: "Sha Wujing", key: "shawujing" }, { name: "Sun Wukong", key: "sunwukong" }, { name: "Ao Guang", key: "aoguang" },
-            { name: "Khepri", key: "khepri" }, { name: "Njord", key: "njord" }
+            { name: "Zhuxin", key: "zhuxin" }, { name: "Chip", key: "chip" }
         ];
 
         const counterPool = [
@@ -157,11 +156,10 @@
             grid.innerHTML = '';
 
             const filtered = HERO_DATA.filter(h => h.name.toLowerCase().includes(search));
-            document.getElementById('countDisplay').textContent = `${filtered.length} / 132 HEROES READY`;
+            document.getElementById('countDisplay').textContent = `${filtered.length} GLOBAL HEROES INDEXED`;
 
             filtered.forEach(hero => {
                 const card = document.createElement('div');
-                // Uses dynamic dark: classes to switch theme styles completely
                 card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden flex flex-col h-full shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-200";
                 
                 const label = lang === 'id' ? "COUNTER STRATEGI:" : "TACTICAL COUNTER:";
@@ -192,4 +190,4 @@
         updateUI();
     </script>
 </body>
-                </html>
+            </html>
